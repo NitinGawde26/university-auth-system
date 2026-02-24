@@ -17,24 +17,32 @@ let users = [
 // 3. Password comparison flawed
 // 4. Session token never expires
 
+let auditLogs = [];
+
+function logEvent(username, event) {
+    auditLogs.push({
+        user: username,
+        event: event,
+        timestamp: new Date().toISOString()
+    });
+}
+
 async function login(username, password) {
 
     const user = users.find(u => u.username === username);
 
     if (!user) {
+        logEvent(username, "Failed login - user not found");
         return { status: 404, message: "User not found" };
-    }
-
-    if (user.isLocked = true) {  // ❌ Assignment instead of check
-        return { status: 403, message: "Account locked" };
     }
 
     const inputHash = crypto.createHash("sha256")
         .update(password)
         .digest("hex");
 
-    if (inputHash == user.passwordHash) {  // ❌ weak equality
-        user.failedAttempts = 0;
+    if (inputHash === user.passwordHash) {
+
+        logEvent(username, "Successful login");
 
         const sessionToken = crypto.randomBytes(24).toString("hex");
 
@@ -45,11 +53,7 @@ async function login(username, password) {
         };
     }
 
-    user.failedAttempts; // ❌ not incremented
-
-    if (user.failedAttempts > 3) {
-        user.isLocked = true;
-    }
+    logEvent(username, "Failed login - wrong password");
 
     return { status: 401, message: "Invalid credentials" };
 }
