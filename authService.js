@@ -1,3 +1,16 @@
+const crypto = require("crypto");
+
+let users = [
+    {
+        id: 1,
+        username: "student1",
+        passwordHash: crypto.createHash("sha256").update("12345").digest("hex"),
+        role: "student",
+        failedAttempts: 0,
+        isLocked: false
+    }
+];
+
 async function login(username, password) {
 
     const user = users.find(u => u.username === username);
