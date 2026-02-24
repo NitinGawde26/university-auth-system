@@ -11,6 +11,8 @@ let users = [
     }
 ];
 
+<<<<<<< HEAD
+>>>>>>> feature-session-expiry
 async function login(username, password) {
 
     const user = users.find(u => u.username === username);
@@ -19,32 +21,33 @@ async function login(username, password) {
         return { status: 404, message: "User not found" };
     }
 
-    if (user.isLocked === true) {
-        return { status: 403, message: "Account locked" };
-    }
-
+<<<<<<< HEAD
+>>>>>>> feature-session-expiry
     const inputHash = crypto.createHash("sha256")
         .update(password)
         .digest("hex");
 
     if (inputHash === user.passwordHash) {
-
-        user.failedAttempts = 0;
+<<<<<<< HEAD
+>>>>>>> feature-session-expiry
 
         const sessionToken = crypto.randomBytes(24).toString("hex");
+
+        const expiry = Date.now() + (30 * 60 * 1000); // 30 mins
 
         return {
             status: 200,
             message: "Login successful",
-            token: sessionToken
+            token: sessionToken,
+            expiresAt: expiry
         };
     }
 
+<<<<<<< HEAD
     user.failedAttempts += 1;
 
     if (user.failedAttempts >= 3) {
         user.isLocked = true;
     }
 
-    return { status: 401, message: "Invalid credentials" };
-}
+
