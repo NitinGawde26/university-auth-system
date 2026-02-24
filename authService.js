@@ -12,24 +12,31 @@ let users = [
 ];
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> feature-session-expiry
+>>>>>>> feature-audit-logging
 async function login(username, password) {
 
     const user = users.find(u => u.username === username);
 
     if (!user) {
+        logEvent(username, "Failed login - user not found");
         return { status: 404, message: "User not found" };
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> feature-session-expiry
+>>>>>>> feature-audit-logging
     const inputHash = crypto.createHash("sha256")
         .update(password)
         .digest("hex");
 
     if (inputHash === user.passwordHash) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> feature-session-expiry
+>>>>>>> feature-audit-logging
 
         const sessionToken = crypto.randomBytes(24).toString("hex");
 
@@ -44,10 +51,10 @@ async function login(username, password) {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     user.failedAttempts += 1;
 
     if (user.failedAttempts >= 3) {
         user.isLocked = true;
     }
-
 
